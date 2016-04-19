@@ -1,28 +1,21 @@
-const https = require('https');
+var request = require('request');
 
-var init = function(key, cid){
+var init = function(cid){
 
 	var channelId = cid;
-	var apiKey = key;
 
 	var sendMessage = function(message, cb){
-		var url = "https://api.telegram.org/bot" + apiKey + "/sendMessage?chat_id="+ channelId + "&text=" + message;
-		https.get(url, (res) => {
-			var body = '';
-
-		    res.on('data', function(chunk){
-		        body += chunk;
-		    });
-
-		    res.on('end', function(){
-		    	var response = JSON.parse(body);
-		    	if(cb){
-		   			cb(response);
-		    	}
-		    });
-				  
-		}).on('error', (e) => {
-		 	console.log(`Got error: ${e.message}`);
+		var url = "https://api.telegram.org/bot201093357:AAE6Zy0V-g7kuuYHp0Owl8LXo3FqKBtXXsE/sendMessage?chat_id="+ channelId + "&text=" + message;
+		
+		request('http://www.google.com', function (error, response, body) {
+		  if (!error && response.statusCode == 200) {
+		    var response = JSON.parse(body);
+	    	if(cb){
+	   			cb(response);
+	    	}
+		  }else{
+		  	console.log("Got error: %s",error.message);
+		  }
 		});
 	}
 

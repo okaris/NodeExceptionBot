@@ -1,6 +1,6 @@
 {
   "name": "node-exception-bot",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A Telegram Bot keeps you updated about the uncaught exceptions from your node server.",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,9 @@
     "bot",
     "error"
   ],
+  "dependencies": {
+    "request": "2.70.0"
+  },
   "author": "Omer Karisman <ok@okaris.com> (http://okaris.com)",
   "license": "ISC",
   "bugs": {
