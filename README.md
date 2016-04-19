@@ -1,5 +1,7 @@
 # NodeExceptionBot
 
+[![NPM](https://nodei.co/npm/node-exception-bot.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-exception-bot/)
+
 A Telegram Bot keeps you updated about the uncaught exceptions from your node server.
 
 # Setup
