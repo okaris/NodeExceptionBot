@@ -1,24 +1,49 @@
 const https = require('https');
 
-var channelId = "";
+var init = function(key, cid){
 
-var sendMessage = function(message){
-	var url = "https://api.telegram.org/bot201093357:AAE6Zy0V-g7kuuYHp0Owl8LXo3FqKBtXXsE/sendMessage?chat_id=@okbottest&text=" + message;
-	https.get(url, (res) => {
-		console.log('If you want to keep your Telegram Channel private. Provide this as your channel id to this module:' + res.data.result.chat.id);
-	  console.log(`Got response: ${res.statusCode}`);
-	  // consume response body
-	  res.resume();
-	}).on('error', (e) => {
-	  console.log(`Got error: ${e.message}`);
+	var channelId = cid;
+	var apiKey = key;
+
+	var sendMessage = function(message, cb){
+		var url = "https://api.telegram.org/bot" + apiKey + "/sendMessage?chat_id="+ channelId + "&text=" + message;
+		https.get(url, (res) => {
+			var body = '';
+
+		    res.on('data', function(chunk){
+		        body += chunk;
+		    });
+
+		    res.on('end', function(){
+		    	var response = JSON.parse(body);
+		    	if(cb){
+		   			cb(response);
+		    	}
+		    });
+				  
+		}).on('error', (e) => {
+		 	console.log(`Got error: ${e.message}`);
+		});
+	}
+
+	sendMessage("Node Exception Bot started successfully.", function(r){
+		sendMessage("If you want to keep your Telegram Channel private. Provide this as your channel id to this module: " + r.result.chat.id)
 	});
-}
 
-sendMessage("Bot started successfully");
+	var sendErrorMessage = function(err){
+		sendMessage(err,function(){
+			console.log("exit");
+			process.exit();
+		});
+	}
 
-process.on('uncaughtException', function (err) {
-	sendMessage((new Date).toUTCString() + ' uncaughtException:', err.message);
-	// console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
-	// console.error(err.stack)
-	process.exit(1)
-})
+	process.on('uncaughtException', function (err) {
+		sendErrorMessage((new Date).toUTCString() + ' uncaughtException: ' + err.stack);
+		//console.log((new Date).toUTCString() + ' uncaughtException:', err.message);
+		// console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+		// console.error(err.stack)
+		//process.exit(1)
+	})
+};
+
+module.exports = init;
