@@ -1,13 +1,14 @@
 var request = require('request');
 
-var init = function(cid){
+var init = function(key, cid){
 
 	var channelId = cid;
+	var apiKey = key;
 
 	var sendMessage = function(message, cb){
-		var url = "https://api.telegram.org/bot201093357:AAE6Zy0V-g7kuuYHp0Owl8LXo3FqKBtXXsE/sendMessage?chat_id="+ channelId + "&text=" + message;
+		var url = "https://api.telegram.org/bot" + apiKey + "/sendMessage?chat_id="+ channelId + "&text=" + message;
 		
-		request(url, function (error, response, body) {
+		request.get(url, function (error, response, body) {
 		  if (!error && response.statusCode == 200) {
 		    var response = JSON.parse(body);
 	    	if(cb){
