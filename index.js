@@ -4,7 +4,7 @@ var init = function(key, name){
 	var apiKey = key;
 	var prefix = "";
 	if(name){
-		prefix = nme + ": ";
+		prefix = name + ": ";
 	}
 
 	var sendMessage = function(message, cb){
