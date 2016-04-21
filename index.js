@@ -9,9 +9,9 @@ var init = function(key, name){
 
 	var sendMessage = function(message, cb){
 		console.log(message);
-		var url = "https://node-exception-bot.herokuapp.com/exception";
+		var url = "https://node-exception-bot.herokuapp.com/exception?token=" + apiKey + "&message=" + message;
 		
-		request.post(url, {token: apiKey, message: message}, function (error, response, body) {
+		request.get(url, function (error, response, body) {
 			if(error){
 				console.log(error);
 			}
