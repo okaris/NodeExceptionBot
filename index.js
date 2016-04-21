@@ -1,12 +1,14 @@
 var request = require('request');
 
-var init = function(key, cid){
-
-	var channelId = cid;
+var init = function(key, name){
 	var apiKey = key;
+	var prefix = "";
+	if(name){
+		prefix = nme + ": ";
+	}
 
 	var sendMessage = function(message, cb){
-		var url = "https://api.telegram.org/bot" + apiKey + "/sendMessage?chat_id="+ channelId + "&text=" + message;
+		var url = "https://node-exception-bot.herokuapp.com/exception?token=" + apiKey + "&message=" + message;
 		
 		request.get(url, function (error, response, body) {
 		  if (!error && response.statusCode == 200) {
@@ -15,14 +17,12 @@ var init = function(key, cid){
 	   			cb(response);
 	    	}
 		  }else{
-		  	console.log("Got error: %s",error.message);
+		  	console.log(response);
 		  }
 		});
 	}
 
-	sendMessage("Node Exception Bot started successfully.", function(r){
-		sendMessage("If you want to keep your Telegram Channel private. Provide this as your channel id to this module: " + r.result.chat.id)
-	});
+	sendMessage(prefix + "Node Exception Bot started successfully.");
 
 	var sendErrorMessage = function(err){
 		sendMessage(err,function(){
@@ -32,8 +32,8 @@ var init = function(key, cid){
 	}
 
 	process.on('uncaughtException', function (err) {
-		sendErrorMessage((new Date).toUTCString() + ' uncaughtException: ' + err.stack);
-		//console.log((new Date).toUTCString() + ' uncaughtException:', err.message);
+		sendErrorMessage(prefix + (new Date).toUTCString() + ' uncaughtException: ' + err.stack);
+		//console.log((new Date).toUTCString() + ' uncaughtException:', err.stack);
 		// console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
 		// console.error(err.stack)
 		//process.exit(1)

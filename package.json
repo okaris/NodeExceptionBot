@@ -1,6 +1,6 @@
 {
   "name": "node-exception-bot",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A Telegram Bot keeps you updated about the uncaught exceptions from your node server.",
   "main": "index.js",
   "scripts": {
